@@ -1,0 +1,16 @@
+{
+  "name": "api",
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "build": "bun build src/index.ts --outdir dist",
+    "deploy": "bun run deploy:cf",
+    "deploy:cf": "wrangler deploy"
+  },
+  "dependencies": {
+    "hono": "^4.7.6"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250214.0",
+    "wrangler": "^4.4.0"
+  }
+}
