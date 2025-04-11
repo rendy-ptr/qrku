@@ -1,1 +1,10 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@theme {
+  --font-brutal: 'IBM Plex Mono', monospace;
+
+  --color-brutal-yellow: #ffe600;
+  --color-brutal-black: #000000;
+  --radius-brutal: 0px;
+  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+}
