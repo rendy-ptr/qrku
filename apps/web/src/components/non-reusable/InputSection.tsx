@@ -1,12 +1,20 @@
 import { ChangeEvent } from 'react'
 
 interface InputSectionProps {
-    input: string
-    onInputChange: (value: string) => void
-    onGenerate: () => void
+  input: string
+  onInputChange: (value: string) => void
+  onGenerate: () => void
+  password: string
+  onPasswordChange: (value: string) => void
 }
 
-export const InputSection = ({ input, onInputChange, onGenerate}: InputSectionProps) => {
+export const InputSection = ({
+  input,
+  onInputChange,
+  onGenerate,
+  password,
+  onPasswordChange,
+}: InputSectionProps) => {
   return (
     <section className="bg-white border-4 border-[var(--color-brutal-black)] p-6 shadow-[6px_6px_0_0_var(--color-brutal-black)]">
       <h2
@@ -19,7 +27,24 @@ export const InputSection = ({ input, onInputChange, onGenerate}: InputSectionPr
         type="text"
         placeholder="Enter your text..."
         value={input}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => onInputChange(e.target.value)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onInputChange(e.target.value)
+        }
+        className="w-full border-2 border-[var(--color-brutal-black)] p-2 mb-4 bg-transparent"
+      />
+      <h2
+        className="text-2xl font-bold mb-2"
+        style={{ fontFamily: 'var(--font-brutallay)' }}
+      >
+        Input your password for your QR
+      </h2>
+      <input
+        type="password"
+        placeholder="Enter your password..."
+        value={password}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          onPasswordChange(e.target.value)
+        }
         className="w-full border-2 border-[var(--color-brutal-black)] p-2 mb-4 bg-transparent"
       />
       <button

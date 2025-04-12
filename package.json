@@ -12,6 +12,7 @@
     "turbo": "latest"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
     "qrcode.react": "^4.2.0"
   }
 }
