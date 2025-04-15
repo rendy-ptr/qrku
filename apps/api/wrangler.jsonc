@@ -2,13 +2,17 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "api",
   "main": "src/index.ts",
-  "compatibility_date": "2025-04-10"
+  "compatibility_date": "2025-04-10",
   // "compatibility_flags": [
   //   "nodejs_compat"
   // ],
-  // "vars": {
-  //   "MY_VAR": "my-variable"
-  // },
+  "vars": {
+    "SUPABASE_URL": "https://wtqxgqnczfsptphznsvj.supabase.co",
+    "SUPABASE_KEY" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0cXhncW5jemZzcHRwaHpuc3ZqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NDM1NTU3MywiZXhwIjoyMDU5OTMxNTczfQ.Hf-JhUvug3myR391BRY8RI6USYXopLtDWgG2RR0TUZ0"
+  },
+  "triggers": {
+    "crons": ["0 17 * * *"]
+  }
   // "kv_namespaces": [
   //   {
   //     "binding": "MY_KV_NAMESPACE",

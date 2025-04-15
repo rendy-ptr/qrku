@@ -1,16 +1,19 @@
 {
   "name": "api",
   "scripts": {
-    "dev": "bun --watch src/index.ts",
+    "dev": "wrangler dev",
     "build": "bun build src/index.ts --outdir dist",
     "deploy": "bun run deploy:cf",
-    "deploy:cf": "wrangler deploy"
+    "deploy:cf": "wrangler deploy",
+    "logs": "wrangler tail"
   },
   "dependencies": {
-    "hono": "^4.7.6"
+    "hono": "^4.7.6",
+    "@supabase/supabase-js": "^2.49.4",
+    "dotenv": "^16.5.0"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250214.0",
-    "wrangler": "^4.4.0"
+    "wrangler": "^4.11.0"
   }
 }
