@@ -32,13 +32,13 @@ export function PasswordPrompt({ onSubmit, onCancel }: PasswordPromptProps) {
         <div className="flex justify-between">
           <button
             onClick={handleSubmit}
-            className="bg-[var(--color-brutal-black)] text-white px-4 py-2 border-2 border-[var(--color-brutal-black)] shadow-[4px_4px_0_0_var(--color-brutal-black)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_0_var(--color-brutal-black)] transition-all font-bold text-sm"
+            className="bg-[var(--color-brutal-black)] text-white px-4 py-2 border-2 border-[var(--color-brutal-black)] shadow-[4px_4px_0_0_var(--color-brutal-black)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_0_var(--color-brutal-black)] transition-all font-bold text-sm cursor-pointer hover:bg-[var(--color-brutal-yellow)] hover:text-[var(--color-brutal-black)]"
           >
             Submit
           </button>
           <button
             onClick={onCancel}
-            className="bg-white text-[var(--color-brutal-black)] px-4 py-2 border-2 border-[var(--color-brutal-black)] shadow-[4px_4px_0_0_var(--color-brutal-black)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_0_var(--color-brutal-black)] transition-all font-bold text-sm"
+            className="bg-white text-[var(--color-brutal-black)] px-4 py-2 border-2 border-[var(--color-brutal-black)] shadow-[4px_4px_0_0_var(--color-brutal-black)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_0_var(--color-brutal-black)] transition-all font-bold text-sm cursor-pointer hover:bg-[var(--color-brutal-yellow)] hover:text-[var(--color-brutal-black)]"
           >
             Cancel
           </button>

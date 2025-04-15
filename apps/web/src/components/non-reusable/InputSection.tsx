@@ -36,7 +36,7 @@ export const InputSection = ({
         className="text-2xl font-bold mb-2"
         style={{ fontFamily: 'var(--font-brutallay)' }}
       >
-        Input your password for your QR
+        Input password for your QR
       </h2>
       <input
         type="password"

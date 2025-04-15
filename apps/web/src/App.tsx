@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useBrutalToast } from './components/CustomToast/useBrutalToast'
 
 // components
 import { QRModal } from './components/non-reusable/QRModal'
@@ -9,6 +10,7 @@ import { Footer } from './components/non-reusable/Footer'
 import { PasswordPrompt } from './components/non-reusable/PasswordPrompt'
 
 export default function App() {
+  const { showToast } = useBrutalToast()
   const [input, setInput] = useState('')
   const [items, setItems] = useState<{ value: string; password: string }[]>([])
   const [selectedItem, setSelectedItem] = useState<{
@@ -18,17 +20,53 @@ export default function App() {
   const [password, setPassword] = useState('')
   const [showPasswordPrompt, setShowPasswordPrompt] = useState(false)
 
-  const handleGenerate = () => {
-    if (input.trim()) {
-      setItems([
-        {
-          value: input,
-          password: password,
-        },
-        ...items,
-      ])
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/qr-codes`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        if (!response.ok) {
+          throw new Error('Failed to fetch items')
+        }
+        const data = await response.json()
+        setItems(data)
+      } catch (error) {
+        console.error('Error fetching items:', error)
+      }
+    }
+    fetchItems()
+  }, [])
+
+  const handleGenerate = async () => {
+    if (input.trim() && password.trim()) {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/qr-codes`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ value: input, password }),
+          },
+        )
+        if (!response.ok) {
+          throw new Error(`Failed to save data: ${response.statusText}`)
+        }
+        const data = await response.json()
+        setItems((prevItems) => [data, ...prevItems])
+        showToast('success', 'QR berhasil disimpan!')
+      } catch (error) {
+        console.error('Fetch error:', error)
+        showToast('error', 'Terjadi kesalahan saat menyimpan!')
+      }
       setInput('')
       setPassword('')
+    } else {
+      console.log('Failed validation')
+      showToast('warn', 'Isi input dan password terlebih dahulu')
     }
   }
 
@@ -39,8 +77,9 @@ export default function App() {
   const handlePasswordSubmit = (password: string) => {
     if (selectedItem && password === selectedItem.password) {
       setShowPasswordPrompt(false)
+      showToast('success', 'Password is correct!')
     } else {
-      alert('Incorrect password')
+      showToast('error', 'Password is incorrect!')
     }
   }
 

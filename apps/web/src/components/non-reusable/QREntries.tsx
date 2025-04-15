@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 interface QREntriesProps {
   items: {
     value: string
@@ -32,10 +34,44 @@ export const QREntries = ({ items, onItemClick }: QREntriesProps) => {
               style={{ fontFamily: 'var(--font-brutalpt)' }}
             >
               {item.value}
+              <CountdownToMidnightWIB />
             </li>
           ))}
         </ul>
       )}
     </section>
+  )
+}
+
+function CountdownToMidnightWIB() {
+  const [timeLeft, setTimeLeft] = useState('')
+
+  useEffect(() => {
+    const updateCountdown = () => {
+      const now = new Date()
+      // Convert current time to WIB (UTC+7)
+      const utcNow = now.getTime() + now.getTimezoneOffset() * 60000
+      const wibNow = new Date(utcNow + 7 * 60 * 60 * 1000)
+
+      const midnight = new Date(wibNow)
+      midnight.setHours(23, 59, 59, 999)
+
+      const diff = midnight.getTime() - wibNow.getTime()
+
+      const hours = Math.floor(diff / (1000 * 60 * 60))
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000)
+
+      setTimeLeft(`${hours}h ${minutes}m ${seconds}s`)
+    }
+
+    updateCountdown()
+    const interval = setInterval(updateCountdown, 1000)
+
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <span className="ml-2 text-sm text-gray-500">– expired in {timeLeft}</span>
   )
 }
