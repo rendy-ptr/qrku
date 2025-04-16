@@ -1,9 +1,9 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
-import { createSupabaseClient } from './utils/supabase'
 import { ScheduledController } from '@cloudflare/workers-types'
+import qr from './routes/qr'
+import { createSupabaseClient } from './utils/supabase'
 
-// Definisi interface untuk environment variables
 type Env = {
   SUPABASE_URL: string
   SUPABASE_KEY: string
@@ -11,76 +11,19 @@ type Env = {
 
 const app = new Hono<{ Bindings: Env }>()
 
-// Middleware CORS
+// Global Middleware
 app.use(
   '*',
   cors({
-    origin: '*', 
-    allowMethods: ['GET', 'POST', 'OPTIONS'],
+    origin: '*',
+    allowMethods: ['GET', 'POST', 'OPTIONS', 'DELETE'],
   }),
 )
 
-// Endpoint untuk QR codes
-app.post('/qr-codes', async (c) => {
-  try {
-    // Ambil env dari request
-    const env = c.env as unknown as Env
+// Routing utama
+app.route('/api', qr)
 
-    // Validasi input
-    const { value, password } = await c.req.json()
-    if (!value || !password) {
-      return c.json({ error: 'Value dan password wajib diisi' }, 400)
-    }
-
-    // Buat client Supabase
-    const supabase = createSupabaseClient(env)
-
-    // Insert data ke Supabase
-    const { data, error } = await supabase
-      .from('qr_codes')
-      .insert([{ value, password }])
-      .select()
-      .single()
-
-    if (error) {
-      console.error('Gagal simpan ke Supabase:', error)
-      return c.json({ error: 'Gagal simpan data' }, 500)
-    }
-
-    return c.json(data, 201)
-  } catch (err) {
-    console.error('Error server:', err)
-    return c.json({ error: 'Error server' }, 500)
-  }
-})
-
-app.get('/qr-codes', async (c) => {
-  try {
-    // Ambil env dari request
-    const env = c.env as unknown as Env
-
-    // Buat client Supabase
-    const supabase = createSupabaseClient(env)
-
-    // Query data dari Supabase
-    const { data, error } = await supabase
-      .from('qr_codes')
-      .select('value, password')
-      .order('created_at', { ascending: false })
-
-    if (error) {
-      console.error('Gagal ambil data:', error)
-      return c.json({ error: 'Gagal ambil data' }, 500)
-    }
-
-    return c.json(data, 200)
-  } catch (err) {
-    console.error('Error server:', err)
-    return c.json({ error: 'Error server' }, 500)
-  }
-})
-
-// Fungsi untuk menghapus semua QR codes
+// Cron job function
 async function hapusSemuaQrCodes(env: Env) {
   try {
     const supabase = createSupabaseClient(env)
@@ -99,17 +42,12 @@ async function hapusSemuaQrCodes(env: Env) {
   }
 }
 
-// Export default untuk Cloudflare Workers
+// Export Cloudflare Worker entrypoint
 export default {
-  fetch: app.fetch, // untuk Hono routes
-  scheduled: async (
-    controller: ScheduledController,
-    env: Env,
-    ctx: ExecutionContext,
-  ) => {
+  fetch: app.fetch,
+  scheduled: async (controller: ScheduledController, env: Env, ctx: ExecutionContext) => {
     console.log('⏰ Cron dijalankan jam 17:00 UTC')
 
-    // Panggil fungsi hapus data
     const hasil = await hapusSemuaQrCodes(env)
 
     if (!hasil.success) {

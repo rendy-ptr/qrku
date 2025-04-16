@@ -3,13 +3,23 @@ import { useState } from 'react'
 interface PasswordPromptProps {
   onSubmit: (password: string) => void
   onCancel: () => void
+  onDelete: (password: string) => void
 }
 
-export function PasswordPrompt({ onSubmit, onCancel }: PasswordPromptProps) {
+export function PasswordPrompt({
+  onSubmit,
+  onCancel,
+  onDelete,
+}: PasswordPromptProps) {
   const [password, setPassword] = useState('')
 
   const handleSubmit = () => {
     onSubmit(password)
+    setPassword('')
+  }
+
+  const handleDelete = () => {
+    onDelete(password)
     setPassword('')
   }
 
@@ -29,18 +39,24 @@ export function PasswordPrompt({ onSubmit, onCancel }: PasswordPromptProps) {
           placeholder="Password"
           className="w-full border-2 border-[var(--color-brutal-black)] bg-transparent p-2 mb-4 text-sm focus:outline-none"
         />
-        <div className="flex justify-between">
+        <div className="flex flex-row justify-center gap-2 px-2 w-full max-w-full">
           <button
             onClick={handleSubmit}
-            className="bg-[var(--color-brutal-black)] text-white px-4 py-2 border-2 border-[var(--color-brutal-black)] shadow-[4px_4px_0_0_var(--color-brutal-black)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_0_var(--color-brutal-black)] transition-all font-bold text-sm cursor-pointer hover:bg-[var(--color-brutal-yellow)] hover:text-[var(--color-brutal-black)]"
+            className="bg-[var(--color-brutal-black)] text-white px-2.5 py-1 border-2 border-[var(--color-brutal-black)] shadow-[3px_3px_0_0_var(--color-brutal-black)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0_0_var(--color-brutal-black)] transition-all font-bold text-[11px] sm:text-sm cursor-pointer hover:bg-[var(--color-brutal-yellow)] hover:text-[var(--color-brutal-black)] min-w-[60px] sm:min-w-[80px] whitespace-nowrap"
           >
             Submit
           </button>
           <button
             onClick={onCancel}
-            className="bg-white text-[var(--color-brutal-black)] px-4 py-2 border-2 border-[var(--color-brutal-black)] shadow-[4px_4px_0_0_var(--color-brutal-black)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_0_var(--color-brutal-black)] transition-all font-bold text-sm cursor-pointer hover:bg-[var(--color-brutal-yellow)] hover:text-[var(--color-brutal-black)]"
+            className="bg-white text-[var(--color-brutal-black)] px-2.5 py-1 border-2 border-[var(--color-brutal-black)] shadow-[3px_3px_0_0_var(--color-brutal-black)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0_0_var(--color-brutal-black)] transition-all font-bold text-[11px] sm:text-sm cursor-pointer hover:bg-[var(--color-brutal-yellow)] hover:text-[var(--color-brutal-black)] min-w-[60px] sm:min-w-[80px] whitespace-nowrap"
           >
             Cancel
+          </button>
+          <button
+            onClick={handleDelete}
+            className="bg-[var(--color-brutal-black)] text-white px-2.5 py-1 border-2 border-[var(--color-brutal-black)] shadow-[3px_3px_0_0_var(--color-brutal-black)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0_0_var(--color-brutal-black)] transition-all font-bold text-[11px] sm:text-sm cursor-pointer hover:bg-[var(--color-brutal-yellow)] hover:text-[var(--color-brutal-black)] min-w-[60px] sm:min-w-[80px] whitespace-nowrap"
+          >
+            Delete
           </button>
         </div>
       </div>

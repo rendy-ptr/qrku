@@ -8,12 +8,13 @@
     "logs": "wrangler tail"
   },
   "dependencies": {
-    "hono": "^4.7.6",
     "@supabase/supabase-js": "^2.49.4",
-    "dotenv": "^16.5.0"
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.5.0",
+    "hono": "^4.7.6"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250214.0",
-    "wrangler": "^4.11.0"
+    "wrangler": "4.11.1"
   }
 }

@@ -12,32 +12,37 @@ import { PasswordPrompt } from './components/non-reusable/PasswordPrompt'
 export default function App() {
   const { showToast } = useBrutalToast()
   const [input, setInput] = useState('')
-  const [items, setItems] = useState<{ value: string; password: string }[]>([])
+  const [items, setItems] = useState<{ id: string }[]>([])
   const [selectedItem, setSelectedItem] = useState<{
-    value: string
-    password: string
+    id: string
   } | null>(null)
   const [password, setPassword] = useState('')
   const [showPasswordPrompt, setShowPasswordPrompt] = useState(false)
+  const [revealedValue, setRevealedValue] = useState('')
 
-  useEffect(() => {
-    const fetchItems = async () => {
-      try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/qr-codes`, {
+  const fetchItems = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_DEV_API_URL}/qr-codes`,
+        {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-        })
-        if (!response.ok) {
-          throw new Error('Failed to fetch items')
-        }
-        const data = await response.json()
-        setItems(data)
-      } catch (error) {
-        console.error('Error fetching items:', error)
+        },
+      )
+      if (!response.ok) {
+        throw new Error('Failed to fetch items')
       }
+      const data = await response.json()
+      setItems(data)
+    } catch (error) {
+      console.error('Error fetching items:', error)
     }
+  }
+
+  // Panggil saat mount
+  useEffect(() => {
     fetchItems()
   }, [])
 
@@ -45,7 +50,7 @@ export default function App() {
     if (input.trim() && password.trim()) {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/qr-codes`,
+          `${import.meta.env.VITE_DEV_API_URL}/qr-codes`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -70,22 +75,82 @@ export default function App() {
     }
   }
 
-  const handleItemClick = (item: { value: string; password: string }) => {
+  const handleItemClick = (item: { id: string }) => {
     setSelectedItem(item)
     setShowPasswordPrompt(true)
   }
-  const handlePasswordSubmit = (password: string) => {
-    if (selectedItem && password === selectedItem.password) {
-      setShowPasswordPrompt(false)
-      showToast('success', 'Password is correct!')
-    } else {
-      showToast('error', 'Password is incorrect!')
+  const handlePasswordSubmit = async (password: string) => {
+    if (!selectedItem) {
+      showToast('error', 'Item tidak ditemukan')
+      return
+    }
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_DEV_API_URL}/qr-codes/verify`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: selectedItem.id,
+            password,
+          }),
+        },
+      )
+      const result = await res.json()
+
+      if (res.ok && result.success) {
+        setShowPasswordPrompt(false)
+        setRevealedValue(result.value)
+        showToast('success', 'Password is correct!')
+      } else {
+        showToast('error', result.error || 'Password is incorrect!')
+      }
+    } catch (err) {
+      console.error('Error verifying password:', err)
+      showToast('error', 'Terjadi kesalahan saat menghubungi server')
     }
   }
 
   const handlePasswordCancel = () => {
     setShowPasswordPrompt(false)
     setSelectedItem(null)
+  }
+
+  const handlePasswordDelete = async (password: string) => {
+    if (!selectedItem) {
+      showToast('error', 'Item tidak ditemukan')
+      return
+    }
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_DEV_API_URL}/qr-codes/verify`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: selectedItem.id,
+            password,
+          }),
+        },
+      )
+      const result = await res.json()
+      if (res.ok && result.success) {
+        setShowPasswordPrompt(false)
+        setSelectedItem(null)
+        await fetchItems()
+        showToast('success', 'QR berhasil dihapus!')
+      } else {
+        showToast('error', result.error || 'Password is incorrect!')
+      }
+    } catch (err) {
+      console.error('Error deleting QR code:', err)
+      showToast('error', 'Terjadi kesalahan saat menghubungi server')
+    }
   }
 
   return (
@@ -113,15 +178,13 @@ export default function App() {
         <PasswordPrompt
           onSubmit={handlePasswordSubmit}
           onCancel={handlePasswordCancel}
+          onDelete={handlePasswordDelete}
         />
       )}
 
       {/* Modal */}
       {selectedItem && !showPasswordPrompt && (
-        <QRModal
-          value={selectedItem.value}
-          onClose={() => setSelectedItem(null)}
-        />
+        <QRModal value={revealedValue} onClose={() => setSelectedItem(null)} />
       )}
     </div>
   )

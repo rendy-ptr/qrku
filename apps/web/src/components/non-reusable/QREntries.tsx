@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react'
 
 interface QREntriesProps {
   items: {
-    value: string
-    password: string
+    id: string
   }[]
-  onItemClick: (item: { value: string; password: string }) => void
+  onItemClick: (item: { id: string }) => void
 }
 
 export const QREntries = ({ items, onItemClick }: QREntriesProps) => {
@@ -26,14 +25,14 @@ export const QREntries = ({ items, onItemClick }: QREntriesProps) => {
         </div>
       ) : (
         <ul className="space-y-2">
-          {items.map((item, index) => (
+          {items.map((item) => (
             <li
-              key={index}
+              key={item.id}
               onClick={() => onItemClick(item)}
               className="cursor-pointer border-2 border-[var(--color-brutal-black)] px-4 py-2 hover:bg-yellow-100 shadow-[3px_3px_0_0_var(--color-brutal-black)] transition-all"
               style={{ fontFamily: 'var(--font-brutalpt)' }}
             >
-              {item.value}
+              QR - CODE - 🔒 ID#{item.id.slice(-4).toUpperCase()}
               <CountdownToMidnightWIB />
             </li>
           ))}
