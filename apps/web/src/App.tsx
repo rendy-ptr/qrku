@@ -18,12 +18,15 @@ export default function App() {
   } | null>(null)
   const [password, setPassword] = useState('')
   const [showPasswordPrompt, setShowPasswordPrompt] = useState(false)
-  const [revealedValue, setRevealedValue] = useState('')
+  const [revealedValue, setRevealedValue] = useState<{
+    qrid: string
+    qrvalue: string
+  }>()
 
   const fetchItems = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_DEV_API_URL}/qr-codes`,
+        `${import.meta.env.VITE_PROD_API_URL}/qr-codes`,
         {
           method: 'GET',
           headers: {
@@ -50,7 +53,7 @@ export default function App() {
     if (input.trim() && password.trim()) {
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_DEV_API_URL}/qr-codes`,
+          `${import.meta.env.VITE_PROD_API_URL}/qr-codes`,
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -70,7 +73,6 @@ export default function App() {
       setInput('')
       setPassword('')
     } else {
-      console.log('Failed validation')
       showToast('warn', 'Isi input dan password terlebih dahulu')
     }
   }
@@ -87,7 +89,7 @@ export default function App() {
 
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_DEV_API_URL}/qr-codes/verify`,
+        `${import.meta.env.VITE_PROD_API_URL}/qr-codes/verify`,
         {
           method: 'POST',
           headers: {
@@ -103,7 +105,7 @@ export default function App() {
 
       if (res.ok && result.success) {
         setShowPasswordPrompt(false)
-        setRevealedValue(result.value)
+        setRevealedValue(result.res)
         showToast('success', 'Password is correct!')
       } else {
         showToast('error', result.error || 'Password is incorrect!')
@@ -126,7 +128,7 @@ export default function App() {
     }
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_DEV_API_URL}/qr-codes/verify`,
+        `${import.meta.env.VITE_PROD_API_URL}/qr-codes/verify`,
         {
           method: 'DELETE',
           headers: {
@@ -155,8 +157,8 @@ export default function App() {
 
   return (
     <div
-      className="min-h-screen p-8 bg-[#f8f8f8]"
-      style={{ fontFamily: 'var(--font-brutal)' }}
+      className="min-h-screen p-8 bg-[var(--color-brutal-white)]"
+      style={{ fontFamily: 'var(--font-brutal-body)' }}
     >
       <Header />
 
@@ -173,7 +175,9 @@ export default function App() {
         {/* Cards Section */}
         <QREntries items={items} onItemClick={handleItemClick} />
       </main>
+
       <Footer />
+
       {showPasswordPrompt && (
         <PasswordPrompt
           onSubmit={handlePasswordSubmit}
@@ -183,7 +187,7 @@ export default function App() {
       )}
 
       {/* Modal */}
-      {selectedItem && !showPasswordPrompt && (
+      {selectedItem && !showPasswordPrompt && revealedValue && (
         <QRModal value={revealedValue} onClose={() => setSelectedItem(null)} />
       )}
     </div>

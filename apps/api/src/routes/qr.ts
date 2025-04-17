@@ -77,7 +77,7 @@ qr.post('/qr-codes/verify', async (c) => {
   const { id, password } = await c.req.json()
 
   if (!id || !password) {
-    return c.json({ error: 'ID dan password wajib diisi' }, 400)
+    return c.json({ error: 'password wajib diisi' }, 400)
   }
   const supabase = createSupabaseClient(env)
   const { data, error } = await supabase
@@ -93,7 +93,16 @@ qr.post('/qr-codes/verify', async (c) => {
     return c.json({ error: 'Password salah' }, 401)
   }
 
-  return c.json({ success: true, value: data.value }, 200)
+  return c.json(
+    {
+      success: true,
+      res: {
+        qrid: data.id,
+        qrvalue: data.value,
+      },
+    },
+    200,
+  )
 })
 
 qr.delete('/qr-codes/verify', async (c) => {
@@ -101,7 +110,7 @@ qr.delete('/qr-codes/verify', async (c) => {
   const { id, password } = await c.req.json()
 
   if (!id || !password) {
-    return c.json({ error: 'ID dan password wajib diisi' }, 400)
+    return c.json({ error: 'password wajib diisi' }, 400)
   }
   const supabase = createSupabaseClient(env)
   const { data, error } = await supabase

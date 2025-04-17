@@ -9,17 +9,17 @@ interface QREntriesProps {
 
 export const QREntries = ({ items, onItemClick }: QREntriesProps) => {
   return (
-    <section className="bg-white border-4 border-[var(--color-brutal-black)] p-6 shadow-[6px_6px_0_0_var(--color-brutal-black)]">
+    <section className="bg-[var(--color-brutal-white)] border-2 border-[var(--color-brutal-primary)] p-4 sm:p-6 shadow-[var(--shadow-brutal)] rounded-[var(--radius-brutal)]">
       <h2
-        className="text-xl font-bold mb-4"
-        style={{ fontFamily: 'var(--font-brutallay)' }}
+        className="text-lg sm:text-xl font-bold mb-4 text-[var(--color-brutal-primary)]"
+        style={{ fontFamily: 'var(--font-brutal-heading)' }}
       >
         Your QR Entries
       </h2>
       {items.length === 0 ? (
         <div
-          className="text-gray-600 font-semibold text-center"
-          style={{ fontFamily: 'var(--font-brutalpt)' }}
+          className="text-[var(--color-brutal-primary)] font-semibold text-center"
+          style={{ fontFamily: 'var(--font-brutal-body)' }}
         >
           No data available. Enter something to generate QR.
         </div>
@@ -29,8 +29,8 @@ export const QREntries = ({ items, onItemClick }: QREntriesProps) => {
             <li
               key={item.id}
               onClick={() => onItemClick(item)}
-              className="cursor-pointer border-2 border-[var(--color-brutal-black)] px-4 py-2 hover:bg-yellow-100 shadow-[3px_3px_0_0_var(--color-brutal-black)] transition-all"
-              style={{ fontFamily: 'var(--font-brutalpt)' }}
+              className="cursor-pointer border-2 border-[var(--color-brutal-primary)] px-4 py-2 hover:bg-[var(--color-brutal-accent)] hover:text-[var(--color-brutal-primary)] shadow-[var(--shadow-brutal)] transition-all ease-[var(--ease-snappy)] hover:[var(--scale-hover)] rounded-[var(--radius-brutal)]"
+              style={{ fontFamily: 'var(--font-brutal-body)' }}
             >
               QR - CODE - 🔒 ID#{item.id.slice(-4).toUpperCase()}
               <CountdownToMidnightWIB />

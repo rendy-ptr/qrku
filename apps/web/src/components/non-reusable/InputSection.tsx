@@ -16,10 +16,10 @@ export const InputSection = ({
   onPasswordChange,
 }: InputSectionProps) => {
   return (
-    <section className="bg-white border-4 border-[var(--color-brutal-black)] p-6 shadow-[6px_6px_0_0_var(--color-brutal-black)]">
+    <section className="bg-[var(--color-brutal-white)] border-2 border-[var(--color-brutal-primary)] p-4 sm:p-6 shadow-[var(--shadow-brutal)] rounded-[var(--radius-brutal)]">
       <h2
-        className="text-2xl font-bold mb-2"
-        style={{ fontFamily: 'var(--font-brutallay)' }}
+        className="text-xl sm:text-2xl font-bold mb-2 text-[var(--color-brutal-primary)]"
+        style={{ fontFamily: 'var(--font-brutal-heading)' }}
       >
         Input your text
       </h2>
@@ -30,11 +30,11 @@ export const InputSection = ({
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           onInputChange(e.target.value)
         }
-        className="w-full border-2 border-[var(--color-brutal-black)] p-2 mb-4 bg-transparent"
+        className="w-full p-2 mb-4 border-2 border-[var(--color-brutal-primary)] bg-[var(--color-brutal-white)] text-[var(--color-brutal-primary)] text-sm rounded-[var(--radius-brutal)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brutal-accent)]"
       />
       <h2
-        className="text-2xl font-bold mb-2"
-        style={{ fontFamily: 'var(--font-brutallay)' }}
+        className="text-xl sm:text-2xl font-bold mb-2 text-[var(--color-brutal-primary)]"
+        style={{ fontFamily: 'var(--font-brutal-heading)' }}
       >
         Input password for your QR
       </h2>
@@ -45,11 +45,11 @@ export const InputSection = ({
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
           onPasswordChange(e.target.value)
         }
-        className="w-full border-2 border-[var(--color-brutal-black)] p-2 mb-4 bg-transparent"
+        className="w-full p-2 mb-4 border-2 border-[var(--color-brutal-primary)] bg-[var(--color-brutal-white)] text-[var(--color-brutal-primary)] text-sm rounded-[var(--radius-brutal)] focus:outline-none focus:ring-2 focus:ring-[var(--color-brutal-accent)]"
       />
       <button
         onClick={onGenerate}
-        className="text-[var(--color-brutal-black)] px-4 py-2 border-2 border-[var(--color-brutal-black)] shadow-[4px_4px_0_0_var(--color-brutal-black)] transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_0_var(--color-brutal-black)] hover:bg-[var(--color-brutal-yellow)] hover:text-[var(--color-brutal-black)] cursor-pointer font-bold"
+        className="bg-[var(--color-brutal-primary)] text-[var(--color-brutal-white)] px-4 py-2 border-2 border-[var(--color-brutal-primary)] shadow-[var(--shadow-brutal)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[var(--shadow-brutal-active)] transition-all ease-[var(--ease-snappy)] hover:[var(--scale-hover)] font-bold text-sm sm:text-base cursor-pointer hover:bg-[var(--color-brutal-accent)] hover:text-[var(--color-brutal-primary)] rounded-[var(--radius-brutal)]"
       >
         Generate QR
       </button>

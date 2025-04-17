@@ -1,18 +1,33 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-brutal: 'IBM Plex Mono', monospace;
+  /* Font: Modern untuk heading, clean untuk body */
+  --font-brutal-heading: 'Montserrat', 'Arial', sans-serif;
+  --font-brutal-body: 'Inter', 'IBM Plex Sans', sans-serif;
 
-  --color-brutal-green: #4ade80; /* success */
-  --color-brutal-red: #ef4444; /* error */
-  --color-brutal-orange: #f97316; /* warn */
+  /* Warna: Palet futuristik lembut dengan biru langit */
+  --color-brutal-primary: #1a1a1a; /* Hitam lembut untuk kontras */
+  --color-brutal-accent: #94d3ff; /* Biru langit cerah untuk aksen */
+  --color-brutal-green: #76d7b7; /* Hijau mint cerah untuk success */
+  --color-brutal-red: #ffabad; /* Merah koral lembut untuk error */
+  --color-brutal-orange: #ffbc94; /* Oranye persik untuk warn */
+  --color-brutal-white: #fafafa; /* Putih bersih untuk latar */
+  --color-brutal-grain: rgba(0, 0, 0, 0.1); /* Grain sedikit lebih tebal */
+  --color-brutal-gradient: linear-gradient(45deg, #94d3ff, #ffabad); /* Gradient biru ke koral */
 
-  --color-brutal-yellow: #ffe600;
-  --color-brutal-black: #000000;
-  --radius-brutal: 0px;
-  --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+  /* Radius: Sedikit lebih besar untuk kesan modern */
+  --radius-brutal: 6px;
+
+  /* Transisi: Dinamis dengan bounce lembut */
+  --ease-snappy: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Shadow: Bold tapi lembut */
+  --shadow-brutal: 6px 6px 0 0 rgba(0, 0, 0, 0.2);
+  --shadow-brutal-active: 3px 3px 0 0 rgba(0, 0, 0, 0.2);
+
+  /* Animasi tambahan */
+  --scale-hover: scale(1.05);
 }
-
 @keyframes bounce-in {
   0% {
     transform: scale(0.8);
