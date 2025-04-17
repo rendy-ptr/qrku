@@ -4,7 +4,7 @@ Aplikasi web untuk membuat dan mengelola QR code aman, dibuat dengan React.js, H
 
 ## 🤖 Demo URL
 
-- https://qrku-lyart.vercel.app/
+- https://qrku.rndyptr.biz.id/
 
 ## 📋 Deskripsi
 
