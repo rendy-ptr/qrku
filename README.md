@@ -34,7 +34,7 @@ QR Code Generator adalah aplikasi web modern yang memungkinkan pengguna membuat 
 
 3. **Atur variabel lingkungan**
 
-   - Buat file `.dev.vars` di `packages/hono/`:
+   - Buat file `.dev.vars` di `apps/api/`:
      ```
      SUPABASE_URL=https://your-project.supabase.co
      SUPABASE_KEY=your-service-role-key
