@@ -26,13 +26,25 @@ QR Code Generator adalah aplikasi web modern yang memungkinkan pengguna membuat 
    curl -fsSL https://bun.sh/install | bash
    ```
 
-2. **Install dependensi**
+2. **Clone Project**
+
+   ```bash
+   git clone https://github.com/rendy-ptr/qrku.git
+   ```
+
+2. **Open Directory**
+
+   ```bash
+   cd qrku
+   ``` 
+
+4. **Install dependensi**
 
    ```bash
    bun install
    ```
 
-3. **Atur variabel lingkungan**
+5. **Atur variabel lingkungan**
 
    - Buat file `.dev.vars` di `apps/api/`:
      ```
@@ -40,7 +52,7 @@ QR Code Generator adalah aplikasi web modern yang memungkinkan pengguna membuat 
      SUPABASE_KEY=your-service-role-key
      ```
 
-4. **Jalankan aplikasi**
+6. **Jalankan aplikasi**
 
    - Frontend:
      ```bash
